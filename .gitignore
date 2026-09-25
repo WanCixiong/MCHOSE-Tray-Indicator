@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.build-venv/
+
+# Tests and tooling
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Local research and generated files
+.protocol-research/
+repo-index.html
+tray-preview.png
+*.dll
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
