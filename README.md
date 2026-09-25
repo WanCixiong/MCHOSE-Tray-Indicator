@@ -1,8 +1,8 @@
 # MCHOSE Battery Tray
 
-适用于 Windows 的轻量系统托盘工具，通过 2.4G 接收器显示 **MCHOSE A5 V2 Ultra** 的实时电量。
+适用于 Windows 的轻量系统托盘工具，通过 2.4G 接收器或 USB 有线连接显示 **MCHOSE A5 V2 Ultra** 的实时电量。
 
-> 当前仅验证 `VID:PID 3837:100C`、usage page `0xFF01`。程序不会上传数据，也不依赖官方 M HUB。
+> 当前已验证 2.4G 接收器 `VID:PID 3837:100C` 和有线 USB `VID:PID 41E4:1101`，配置接口的 usage page 均为 `0xFF01`。程序不会上传数据，也不依赖官方 M HUB。
 
 ## 功能
 
@@ -23,7 +23,7 @@
 
 - Windows 10/11（64 位）
 - Python 3.11–3.13（从源码运行或构建时）
-- MCHOSE A5 V2 Ultra 及其 2.4G 接收器
+- MCHOSE A5 V2 Ultra（2.4G 接收器或 USB 有线连接）
 
 ## 从源码运行
 

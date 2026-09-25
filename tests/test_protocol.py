@@ -44,6 +44,11 @@ class ProtocolTests(unittest.TestCase):
 
     def test_candidate_filter_is_strict(self) -> None:
         self.assertTrue(protocol.is_supported_candidate(INFO))
+        self.assertTrue(
+            protocol.is_supported_candidate(
+                {**INFO, "vendor_id": 0x41E4, "product_id": 0x1101}
+            )
+        )
         self.assertFalse(protocol.is_supported_candidate({**INFO, "product_id": 1}))
         self.assertFalse(protocol.is_supported_candidate({**INFO, "usage_page": 1}))
 
@@ -57,6 +62,10 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(status.connection_name, "2.4G")
         self.assertTrue(status.connection_active)
         self.assertFalse(status.charging)
+
+    def test_wired_connection_name_is_chinese(self) -> None:
+        status = protocol.BatteryStatus(0x41E4, 0x1101, 0, 0, False, 93, True)
+        self.assertEqual(status.connection_name, "有线 USB")
 
     def test_decode_status_rejects_echo_and_invalid_battery(self) -> None:
         request = [0xF9] + [0xFF] * 19

@@ -13,8 +13,11 @@ try:
 except ImportError:  # Keep pure protocol helpers importable for tests/tools.
     hid = None
 
-VENDOR_IDS = (0x3837, 0x5253)
-SUPPORTED_PRODUCT_IDS = (0x100C,)
+VENDOR_IDS = (0x3837, 0x5253, 0x41E4)
+SUPPORTED_DEVICE_IDS = {
+    (0x3837, 0x100C),  # A5 V2 Ultra 2.4G receiver
+    (0x41E4, 0x1101),  # A5 V2 Ultra wired USB (hardware verified)
+}
 CONFIG_USAGE_PAGE = 0xFF01
 REPORT_ID = 0x11
 PAYLOAD_LENGTH = 20
@@ -37,8 +40,8 @@ class BatteryStatus:
 
     @property
     def connection_name(self) -> str:
-        return {0: "wired USB", 1: "2.4G", 2: "Bluetooth"}.get(
-            self.connection_mode, f"unknown ({self.connection_mode})"
+        return {0: "有线 USB", 1: "2.4G", 2: "蓝牙"}.get(
+            self.connection_mode, f"未知（{self.connection_mode}）"
         )
 
 
@@ -49,12 +52,9 @@ def require_hid():
 
 
 def is_supported_candidate(info: dict) -> bool:
-    """Restrict access to the tested receiver model and configuration collection."""
-    return (
-        info.get("vendor_id") in VENDOR_IDS
-        and info.get("product_id") in SUPPORTED_PRODUCT_IDS
-        and info.get("usage_page") == CONFIG_USAGE_PAGE
-    )
+    """Restrict access to tested device identities and the configuration collection."""
+    identity = (info.get("vendor_id"), info.get("product_id"))
+    return identity in SUPPORTED_DEVICE_IDS and info.get("usage_page") == CONFIG_USAGE_PAGE
 
 
 def hex_bytes(values: Iterable[int]) -> str:

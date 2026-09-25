@@ -163,7 +163,13 @@ class BatteryTray:
         self.last_status = status
         self.last_error = None
         charging = " · 充电中" if status.charging else ""
-        active = "" if status.connection_active else " · 未连接"
+        # Legacy wired replies leave the wireless-link-active bit cleared.  It does
+        # not mean that the USB connection itself is disconnected.
+        active = (
+            " · 未连接"
+            if status.connection_mode in (1, 2) and not status.connection_active
+            else ""
+        )
         profile = f"\n配置 {self.active_profile + 1}" if self.active_profile is not None else ""
         self.icon.title = (
             f"MCHOSE A5 V2 Ultra\n"
